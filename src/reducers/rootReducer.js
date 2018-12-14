@@ -3,9 +3,9 @@ const initState = {
   regulartickets: 0,
   migrations: 0,
   tickets: [
-    { id: 1, 
+    { id: 11, 
       datecomplete: '12/12/2018', 
-      Localday: 1, 
+      Localday: 2, 
       month: Month(), 
       week: Week(), 
       start: '01:30 AM',
@@ -15,41 +15,18 @@ const initState = {
       website: 'https://my.onlinechiro.com/0031729/site/editor/cms', 
       remarks: 'Edit Page', 
       status: 'Complete', 
-      skill: 'Regular Ticket' },
-    { id: 2, 
-      datecomplete: '12/3/2018', 
-      Localday: 3, 
-      month: Month(), 
-      week: Week(), 
-      start: '01:30 AM',
-      end: '02:30 AM', 
-      theme: 'Julia', 
-      ticketnumber: '370156', 
-      website: 'https://my.onlinechiro.com/0031729/site/editor/cms', 
-      remarks: 'Edit Page', 
-      status: 'Complete', 
-      skill: 'Migration' }
-  ],
-  
+      skill: 'Migration' },   
+  ]
 }
 function USday() {
   let today = new Date().getUTCDate()
   return(today);
 }
 function Week() {
-  // const weekNumber = new Date().getDate();
-  // const weekNumberofMonth = ['first', 'second', 'third', 'fourth', 'fifth'];
-  // console.log(weekNumber);
-  // console.log(weekNumberofMonth[Math.floor(31 / 7)]);
-  // const today = new Date();
-  // const firstDayOfYear = new Date(today.getFullYear(), 0, 1);
-  // const pastDaysOfYear = (today - firstDayOfYear) / 86400000;
-  // console.log(today, firstDayOfYear, pastDaysOfYear);
-  // return Math.ceil((pastDaysOfYear + firstDayOfYear.getDay() + 1) / 7);
   var date = new Date();
-  var days = ['Sunday','Monday','Tuesday','Wednesday', 'Thursday','Friday','Saturday'],
-  prefixes = ['First', 'Second', 'Third', 'Fourth', 'Fifth'];
-  return prefixes[Math.floor(date.getDate() / 7)] + ' ' + days[date.getDay()];
+  // var days = ['Sunday','Monday','Tuesday','Wednesday', 'Thursday','Friday','Saturday'],
+  var prefixes = ['First', 'Second', 'Third', 'Fourth', 'Fifth'];
+  return prefixes[Math.floor(date.getDate() / 7)];
 }
 
 function Month() {
@@ -60,26 +37,70 @@ function Month() {
   return(monthNames[month]);
 }
 const rootReducer = (state = initState, action) => {
-  if (action.type === 'DELETE_TICKET') {
-    let newTicket = state.tickets.filter(ticket => {
-      return action.id !== ticket.id
-    });
-    return {
-      ...state,
-      tickets: newTicket
-    }
+  switch(action.type) {
+    case 'DELETE_TICKET':
+      let newTicket = state.tickets.filter(ticket => {
+        return action.id !== ticket.id
+      });
+      if (action.skill === "Regular Ticket") {
+        return {
+          ...state,
+          tickets: newTicket,
+          regulartickets: state.regulartickets - 1
+        }
+      }
+      else if (action.skill === "Migration") {
+        return {
+          ...state,
+          tickets: newTicket,
+          migrations: state.migrations - 1
+        }
+      } else {
+        return {
+          ...state,
+          tickets: newTicket
+        }
+      }
+    case 'ADD_TICKET':
+      let ticket = action.ticket;
+      let tickets = [...state.tickets, ticket];
+      if (action.ticket.skill === "Regular Ticket") {
+        return {
+          ...state,
+          regulartickets: state.regulartickets + 1,
+          tickets
+        }
+      }
+      if (action.ticket.skill === "Migration") {
+        return {
+          ...state,
+          migrations: state.migrations + 1,
+          tickets
+        }
+      }
+    break;
+    case 'EDIT_TICKET':
+      state.tickets.map(ticket => {
+        if (ticket.id === action.ticket.id) {
+          return (
+            ticket.datecomplete = action.ticket.datecomplete,
+            ticket.month = action.ticket.month, 
+            ticket.week = action.ticket.week, 
+            ticket.start = action.ticket.start,
+            ticket.end = action.ticket.end, 
+            ticket.theme = action.ticket.theme, 
+            ticket.ticketnumber = action.ticket.ticketnumber, 
+            ticket.website = action.ticket.website, 
+            ticket.remarks = action.ticket.remarks, 
+            ticket.status = action.ticket.status, 
+            ticket.skill = action.ticket.skill
+          )
+        }
+        else
+          return state.tickets
+      });
+      default: return state
   }
-  if (action.type === 'ADD_TICKET') {
-    action.id = Math.random();
-    let ticket = action.ticket;
-    let tickets = [...state.tickets, ticket];
-    console.log(action);
-    return {
-      ...state,
-      tickets
-    }
-  }
-  return state;
 }
 
 export default rootReducer

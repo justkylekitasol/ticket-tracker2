@@ -1,11 +1,9 @@
 import React, {Component} from 'react'
 import { connect } from 'react-redux'
-import { deleteTicket } from '../actions/postActions'
+import { deleteTicket } from '../actions/ticketActions'
+import { Link } from 'react-router-dom'
 
 class Home extends Component {
-  // handleClick = () => {
-  //   this.props.deleteTicket(ticket.id)
-  // }
   render() {
     const { tickets } = this.props;
     const ticketList = tickets.length ? (
@@ -23,7 +21,9 @@ class Home extends Component {
             <td>{ ticket.status }</td>
             <td>{ ticket.skill }</td>
             <td>{ ticket.remarks }</td>
-            <td><button className="btn btn-danger" onClick={() => {this.props.deleteTicket(ticket.id)}}>Delete</button></td>
+            <td><button className="btn btn-danger delete-btn" onClick={() => {this.props.deleteTicket(ticket.id)}}>Delete</button></td>
+            {/* <td><button className="btn btn-primary edit-btn" data-toggle="modal" data-target="#editModal" onClick={() => {this.props.getID(ticket.id)}}>Edit</button></td> */}
+            <td><Link to={'/' + ticket.id}><button className="btn btn-primary edit-btn">Edit</button></Link></td>
           </tr>
         )
       })
@@ -59,10 +59,8 @@ class Home extends Component {
           </table>
         </div>
       </div>
-      
     )
   }
-  
 }
 
 const mapStateToProps = (state) => {

@@ -1,20 +1,14 @@
 import React, {Component} from 'react'
 import { connect } from 'react-redux'
-import { deleteTicket } from '../actions/postActions'
+import { deleteTicket } from '../actions/ticketActions'
+import { Link } from 'react-router-dom'
 
 class Daily extends Component {
   render() {
-    console.log(this.props)
     const { tickets } = this.props;
     const ticketList = tickets.length ? (
       tickets.map(ticket => {
         if (this.props.USday + 1 === ticket.Localday || this.props.USday === ticket.Localday){
-          // if (ticket.skill === "Regular Ticket"){
-          //   this.props.regulartickets += 1;
-          // }
-          // if (ticket.skill === "Migration"){
-          //   this.props.migrations += 1;
-          // }
           return (
             <tr className="ticket" key={ticket.id}>
               <td>{ ticket.datecomplete }</td>
@@ -28,8 +22,8 @@ class Daily extends Component {
               <td>{ ticket.status }</td>
               <td>{ ticket.skill }</td>
               <td>{ ticket.remarks }</td>
-              <td><button className="btn btn-danger delete-btn" onClick={() => {this.props.deleteTicket(ticket.id)}}>Delete</button></td>
-              <td><button className="btn btn-primary edit-btn">Edit</button></td>
+              <td><button className="btn btn-danger delete-btn" onClick={() => {this.props.deleteTicket(ticket.id, ticket.skill)}}>Delete</button></td>
+              <td><Link to={'/' + ticket.id}><button className="btn btn-primary edit-btn">Edit</button></Link></td>
             </tr>
           )
         } else {
@@ -46,7 +40,7 @@ class Daily extends Component {
         <h1 className="text-center">Daily Ticket Tracker</h1>
         <button className="btn btn-success copy-btn" onClick={() => {this.props.copyFunction()}}>Copy</button>
         <div id="tableId">
-          <h6>For this day, I accomplished { this.props.regulartickets } Regular Tickets and { this.props.migrations } Migrations {this.props.USDay}</h6>
+          <h6>For this day, I accomplished {this.props.regulartickets} Regular Ticket/s and { this.props.migrations } Migration/s</h6>
           <div className="table-responsive">
             <table className="text-center table">
               <thead>
@@ -86,7 +80,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return  {
-    deleteTicket: (id) => { dispatch(deleteTicket(id)) }
+    deleteTicket: (id, skill) => { dispatch(deleteTicket(id, skill)) }
   }
 }
 

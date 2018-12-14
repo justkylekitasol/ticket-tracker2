@@ -1,8 +1,12 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { addTicket } from '../actions/postActions'
-class Form extends Component {
+import { addTicket } from '../actions/ticketActions'
+class AddTicket extends Component {
   state = {
+    datecomplete: '',
+    Localday: '',
+    month: '',
+    week: '',
     start: '',
     end: '',
     duration: '',
@@ -27,7 +31,6 @@ class Form extends Component {
     }
     return i;
   }
-  
   startTime = () => {
     let date = new Date(),
     hour = this.addZeroinhours(date.getHours()),
@@ -69,8 +72,6 @@ class Form extends Component {
     duration = Math.abs(end - start)/1000,
     minutes = Math.round(duration/60),
     hours = Math.round(minutes/60)
-    console.log(start, end)
-    
     this.setState({
       duration: hours + ":" + minutes + ":00"
     })
@@ -86,21 +87,11 @@ class Form extends Component {
     return(month + '/' + today + '/' + year);
   }
   Week() {
-    // const weekNumber = new Date().getDate();
-    // const weekNumberofMonth = ['first', 'second', 'third', 'fourth', 'fifth'];
-    // console.log(weekNumber);
-    // console.log(weekNumberofMonth[Math.floor(31 / 7)]);
-    // const today = new Date();
-    // const firstDayOfYear = new Date(today.getFullYear(), 0, 1);
-    // const pastDaysOfYear = (today - firstDayOfYear) / 86400000;
-    // console.log(today, firstDayOfYear, pastDaysOfYear);
-    // return Math.ceil((pastDaysOfYear + firstDayOfYear.getDay() + 1) / 7);
     var date = new Date();
-    var days = ['Sunday','Monday','Tuesday','Wednesday', 'Thursday','Friday','Saturday'],
-    prefixes = ['First', 'Second', 'Third', 'Fourth', 'Fifth'];   
-    return prefixes[Math.floor(date.getDate() / 7)] + ' ' + days[date.getDay()];
+    // var days = ['Sunday','Monday','Tuesday','Wednesday', 'Thursday','Friday','Saturday'],
+    var prefixes = ['1', '2', '3', '4', '5'];   
+    return prefixes[Math.floor(date.getDate() / 7)];
   }
-  
   Month() {
     const monthNames = ["January", "February", "March", "April", "May", "June",
   "July", "August", "September", "October", "November", "December"
@@ -108,9 +99,9 @@ class Form extends Component {
     let month = new Date().getMonth();
     return(monthNames[month]);
   }
-  
   handleChange = (e) => {
     this.setState({
+      id: parseInt(Math.floor(Math.random() * 10000) + 1, 16),
       datecomplete: this.Today(),
       Localday: this.Localday(),
       month: this.Month(),
@@ -131,7 +122,6 @@ class Form extends Component {
       status: '',
       skill: ''
     })
-    console.log(this.state);
   }
   
   render(){
@@ -225,7 +215,8 @@ const mapStateToProps = (state) => {
     website: state.website,
     remarks: state.remarks,
     startdate: state.startdate,
-    enddate: state.enddate
+    enddate: state.enddate,
+    Localday: state.Localday
   }
 }
 const mapDispatchToProps = (dispatch) => {
@@ -233,4 +224,4 @@ const mapDispatchToProps = (dispatch) => {
     addTicket: (ticket) => { dispatch(addTicket(ticket)) }
   }
 }
-export default connect(mapStateToProps, mapDispatchToProps)(Form)
+export default connect(mapStateToProps, mapDispatchToProps)(AddTicket)

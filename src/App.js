@@ -4,7 +4,8 @@ import Home from './components/Home'
 import Daily from './components/Daily'
 import { connect } from 'react-redux'
 import AddTicket from './components/AddTicket'
-import { BrowserRouter, Route} from 'react-router-dom'
+import EditTicket from './components/EditTicket'
+import { BrowserRouter, Route, Switch} from 'react-router-dom'
 
 class App extends Component {
   copyFunction () {
@@ -35,9 +36,11 @@ class App extends Component {
       <BrowserRouter>
         <div className="chat-app">
           <Navbar />
-          <Route exact path='/' render={()=> <Home/>}/>
-          <Route path='/daily-tracker' render={()=> <Daily copyFunction={this.copyFunction}/>} />
-          {/* <Route path='/add-ticket' render={()=> <AddTicket addTicket={this.addTicket}/>} /> */}
+          <Switch>
+            <Route exact path='/' render={()=> <Home/>}/>
+            <Route path='/daily-tracker' render={()=> <Daily copyFunction={this.copyFunction}/>} />
+            <Route path='/:ticket_id' component={EditTicket}/>
+          </Switch>
           <div className="modal fade" id="myModal">
             <div className="modal-dialog modal-dialog-centered modal-lg">
               <div className="modal-content">
@@ -54,6 +57,22 @@ class App extends Component {
               </div>
             </div>
           </div>
+          {/* <div className="modal fade" id="editModal">
+            <div className="modal-dialog modal-dialog-centered modal-lg">
+              <div className="modal-content">
+                <div className="modal-header">
+                  <h2 className="modal-title">Edit Ticket</h2>
+                  <button type="button" className="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div className="modal-body">
+                  <EditTicket/>
+                </div>
+                <div className="modal-footer">
+                  <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+            </div>
+          </div> */}
         </div>
       </BrowserRouter>
     );
