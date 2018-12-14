@@ -98,7 +98,21 @@ const rootReducer = (state = initState, action) => {
         }
         else
           return state.tickets
-      });
+      })
+      if (action.ticket.skill === "Regular Ticket") {
+        return {
+          ...state,
+          regulartickets: state.regulartickets + 1,
+          migrations: state.migrations - 1
+        }
+      } if (action.ticket.skill === "Migration") {
+        return {
+          ...state,
+          migrations: state.migrations + 1,
+          regulartickets: state.regulartickets - 1
+          
+        }
+      }
       default: return state
   }
 }
