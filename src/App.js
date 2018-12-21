@@ -1,12 +1,13 @@
 import React, { Component } from 'react'
 import Navbar from './components/Navbar'
+import Returned from './components/Returned'
 import Home from './components/Home'
 import Daily from './components/Daily'
 import { connect } from 'react-redux'
 import AddTicket from './components/AddTicket'
 import EditTicket from './components/EditTicket'
 import { BrowserRouter, Route, Switch} from 'react-router-dom'
-
+import { CSSTransition, TransitionGroup, } from 'react-transition-group'
 class App extends Component {
   copyFunction () {
     let body = document.body, range, sel,
@@ -36,11 +37,19 @@ class App extends Component {
       <BrowserRouter>
         <div className="chat-app">
           <Navbar />
-          <Switch>
-            <Route exact path='/' render={()=> <Home/>}/>
-            <Route path='/daily-tracker' render={()=> <Daily copyFunction={this.copyFunction}/>} />
-            <Route path='/:ticket_id' component={EditTicket}/>
-          </Switch>
+          <Route render={({location}) => (
+            <TransitionGroup>
+              <CSSTransition key={location.key} timeout={450} classNames="fade">
+                <Switch location={location}>
+                  <Route path='/returned' component={Returned}/>
+                  <Route exact path='/' render={()=> <Home/>}/>
+                  <Route path='/daily-tracker' render={()=> <Daily copyFunction={this.copyFunction}/>} />
+                  <Route path='/:ticket_id' component={EditTicket}/>
+                </Switch>
+              </CSSTransition>
+            </TransitionGroup>
+          )} />
+          
           <div className="modal fade" id="myModal">
             <div className="modal-dialog modal-dialog-centered modal-lg">
               <div className="modal-content">

@@ -15,7 +15,8 @@ class AddTicket extends Component {
     website: '',
     remarks: '',
     startdate: '',
-    enddate: ''
+    enddate: '',
+    status: ''
   }
   addZeroinhours(i) {
     if (i < 10 && i !== 0) {
@@ -216,7 +217,8 @@ const mapStateToProps = (state) => {
     remarks: state.remarks,
     startdate: state.startdate,
     enddate: state.enddate,
-    Localday: state.Localday
+    Localday: state.Localday,
+    status: state.status
   }
 }
 const mapDispatchToProps = (dispatch) => {

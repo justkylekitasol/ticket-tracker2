@@ -1,7 +1,5 @@
 const initState = {
   USday: USday(),
-  regulartickets: 0,
-  migrations: 0,
   tickets: [
     { id: 11, 
       datecomplete: '12/12/2018', 
@@ -14,9 +12,55 @@ const initState = {
       ticketnumber: '370156', 
       website: 'https://my.onlinechiro.com/0031729/site/editor/cms', 
       remarks: 'Edit Page', 
+      status: 'Returned', 
+      skill: 'Migration'
+    },
+    {
+      id: 12, 
+      datecomplete: '12/18/2018', 
+      Localday: 1, 
+      month: Month(), 
+      week: Week(), 
+      start: '01:30 AM',
+      end: '02:30 AM', 
+      theme: 'Julia', 
+      ticketnumber: '370156', 
+      website: 'https://my.onlinechiro.com/0031729/site/editor/cms', 
+      remarks: 'Change Theme', 
+      status: 'Returned', 
+      skill: 'Migration'
+    },
+    { id: 13, 
+      datecomplete: '12/12/2018', 
+      Localday: 2, 
+      month: Month(), 
+      week: Week(), 
+      start: '01:30 AM',
+      end: '02:30 AM', 
+      theme: 'Julia', 
+      ticketnumber: '370156', 
+      website: 'https://my.onlinechiro.com/0031729/site/editor/cms', 
+      remarks: 'Edit Page', 
       status: 'Complete', 
-      skill: 'Migration' },   
-  ]
+      skill: 'Migration'
+    },
+    { id: 14, 
+      datecomplete: '12/12/2018', 
+      Localday: 2, 
+      month: Month(), 
+      week: Week(), 
+      start: '01:30 AM',
+      end: '02:30 AM', 
+      theme: 'Julia', 
+      ticketnumber: '370156', 
+      website: 'https://my.onlinechiro.com/0031729/site/editor/cms', 
+      remarks: 'Edit Page', 
+      status: 'Complete', 
+      skill: 'Migration'
+    },   
+    
+  ],
+  
 }
 function USday() {
   let today = new Date().getUTCDate()
@@ -25,7 +69,7 @@ function USday() {
 function Week() {
   var date = new Date();
   // var days = ['Sunday','Monday','Tuesday','Wednesday', 'Thursday','Friday','Saturday'],
-  var prefixes = ['First', 'Second', 'Third', 'Fourth', 'Fifth'];
+  var prefixes = ['1', '2', '3', '4', '5'];
   return prefixes[Math.floor(date.getDate() / 7)];
 }
 
@@ -36,49 +80,26 @@ function Month() {
   let month = new Date().getMonth();
   return(monthNames[month]);
 }
+
 const rootReducer = (state = initState, action) => {
   switch(action.type) {
     case 'DELETE_TICKET':
       let newTicket = state.tickets.filter(ticket => {
         return action.id !== ticket.id
       });
-      if (action.skill === "Regular Ticket") {
-        return {
-          ...state,
-          tickets: newTicket,
-          regulartickets: state.regulartickets - 1
-        }
+      return {
+        ...state,
+        tickets: newTicket
       }
-      else if (action.skill === "Migration") {
-        return {
-          ...state,
-          tickets: newTicket,
-          migrations: state.migrations - 1
-        }
-      } else {
-        return {
-          ...state,
-          tickets: newTicket
-        }
-      }
+      
     case 'ADD_TICKET':
       let ticket = action.ticket;
       let tickets = [...state.tickets, ticket];
-      if (action.ticket.skill === "Regular Ticket") {
-        return {
-          ...state,
-          regulartickets: state.regulartickets + 1,
-          tickets
-        }
+      return {
+        ...state,
+        tickets
       }
-      if (action.ticket.skill === "Migration") {
-        return {
-          ...state,
-          migrations: state.migrations + 1,
-          tickets
-        }
-      }
-    break;
+      
     case 'EDIT_TICKET':
       state.tickets.map(ticket => {
         if (ticket.id === action.ticket.id) {
@@ -96,23 +117,11 @@ const rootReducer = (state = initState, action) => {
             ticket.skill = action.ticket.skill
           )
         }
-        else
+        else {
           return state.tickets
+        }
       })
-      if (action.ticket.skill === "Regular Ticket") {
-        return {
-          ...state,
-          regulartickets: state.regulartickets + 1,
-          migrations: state.migrations - 1
-        }
-      } if (action.ticket.skill === "Migration") {
-        return {
-          ...state,
-          migrations: state.migrations + 1,
-          regulartickets: state.regulartickets - 1
-          
-        }
-      }
+      return state
       default: return state
   }
 }
