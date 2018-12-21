@@ -82,7 +82,7 @@ class AddTicket extends Component {
     return(today)
   }
   Today() {
-    let today = new Date().getDate(),
+    let today = this.Localday(),
     month = new Date().getMonth() + 1,
     year = new Date().getFullYear();
     return(month + '/' + today + '/' + year);
@@ -206,24 +206,10 @@ class AddTicket extends Component {
     )
   }
 }
-const mapStateToProps = (state) => {
-  return {
-    start: state.start,
-    end: state.end,
-    duration: state.duration,
-    theme: state.theme,
-    ticketnumber: state.ticketnumber,
-    website: state.website,
-    remarks: state.remarks,
-    startdate: state.startdate,
-    enddate: state.enddate,
-    Localday: state.Localday,
-    status: state.status
-  }
-}
+
 const mapDispatchToProps = (dispatch) => {
   return  {
     addTicket: (ticket) => { dispatch(addTicket(ticket)) }
   }
 }
-export default connect(mapStateToProps, mapDispatchToProps)(AddTicket)
+export default connect(null, mapDispatchToProps)(AddTicket)

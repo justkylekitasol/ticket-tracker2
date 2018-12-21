@@ -22,7 +22,6 @@ class Home extends Component {
             <td>{ ticket.skill }</td>
             <td>{ ticket.remarks }</td>
             <td><button className="btn btn-danger delete-btn" onClick={() => {this.props.deleteTicket(ticket.id)}}>Delete</button></td>
-            {/* <td><button className="btn btn-primary edit-btn" data-toggle="modal" data-target="#editModal" onClick={() => {this.props.getID(ticket.id)}}>Edit</button></td> */}
             <td><Link to={'/' + ticket.id}><button className="btn btn-primary edit-btn">Edit</button></Link></td>
           </tr>
         )

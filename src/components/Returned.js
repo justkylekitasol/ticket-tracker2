@@ -51,9 +51,11 @@ class Returned extends Component {
         <h1 className="text-center">Returned Cases</h1>
         <div className="row">
           <div className="col-md-3 mt-4">
-            <h3>Complete Total: { tickets.length }</h3>
-            <h3>Returns Total: { this.getReturns() }</h3>
-            <h3>Accuracy: { Math.floor(this.getAccuracy(tickets.length)) + '%' }</h3>
+            <div className="card bg-success text-white p-3">
+              <h4>Complete Total: { tickets.length }</h4>
+              <h4>Returns Total: { this.getReturns() }</h4>
+              <h4>Accuracy: { Math.floor(this.getAccuracy(tickets.length)) + '%' }</h4>
+            </div>
           </div>
           <div className="col-md-9 mt-4">
             <div className="table-responsive">
