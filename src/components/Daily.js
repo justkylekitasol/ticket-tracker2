@@ -4,9 +4,22 @@ import { deleteTicket } from '../actions/ticketActions'
 import { Link } from 'react-router-dom'
 
 class Daily extends Component {
+  getSkill (skill) {
+    let getSkill = skill
+    let skills = this.props.tickets.filter(ticket => {
+      if (this.props.USday + 1 === ticket.Localday || this.props.USday === ticket.Localday) {
+        return (
+          ticket.skill === getSkill
+        )
+      } else return 0
+    })
+    // console.log(skills)
+    return skills.length
+  }
+  
   render() {
     const { tickets } = this.props;
-    const ticketList = tickets.length ? (
+    const ticketList = this.getSkill("Regular Ticket") || this.getSkill("Migration") ? (
       tickets.map(ticket => {
         if (this.props.USday + 1 === ticket.Localday || this.props.USday === ticket.Localday){
           return (
@@ -31,19 +44,21 @@ class Daily extends Component {
         }
       })
     ) : (
-      <div className="text-center">
-        <h3>No Tickets for Today</h3>
-      </div>
+      <tr>
+        <td colSpan="11"><h3>No Tickets For Today</h3></td>
+        <td></td>
+        <td></td>
+      </tr>
     )
     return(
-      <div className="container mt-5">
+      <div className="container page">
         <h1 className="text-center">Daily Ticket Tracker</h1>
         <button className="btn btn-success copy-btn" onClick={() => {this.props.copyFunction()}}>Copy</button>
         <div id="tableId">
-          <h6>For this day, I accomplished {this.props.regulartickets} Regular Ticket/s and { this.props.migrations } Migration/s</h6>
+          <h6>For this day, I accomplished { this.getSkill("Regular Ticket") } Regular Ticket/s and { this.getSkill("Migration") } Migration/s</h6>
           <div className="table-responsive">
-            <table className="text-center table">
-              <thead>
+            <table className="text-center table table-striped">
+              <thead className="bg-primary">
                 <tr>
                   <th>Date Completed</th>
                   <th>Month</th>
@@ -56,6 +71,8 @@ class Daily extends Component {
                   <th>Status</th>
                   <th>Skill</th>
                   <th>Remarks</th>
+                  <th></th>
+                  <th></th>
                 </tr>
               </thead>
               <tbody>

@@ -22,23 +22,22 @@ class Home extends Component {
             <td>{ ticket.skill }</td>
             <td>{ ticket.remarks }</td>
             <td><button className="btn btn-danger delete-btn" onClick={() => {this.props.deleteTicket(ticket.id)}}>Delete</button></td>
-            {/* <td><button className="btn btn-primary edit-btn" data-toggle="modal" data-target="#editModal" onClick={() => {this.props.getID(ticket.id)}}>Edit</button></td> */}
             <td><Link to={'/' + ticket.id}><button className="btn btn-primary edit-btn">Edit</button></Link></td>
           </tr>
         )
       })
     ) : (
-      <div className="text-center">
-        <h3>No Tickets</h3>
-      </div>
+      <tr>
+        <td colSpan="11"><h3>No Tickets</h3></td>
+      </tr>
     )
     
     return(
-      <div className="text-center container mt-5">
+      <div className="text-center container page">
         <h1>Main Ticket Tracker</h1>
-        <div className="table-responsive">
-          <table className="table">
-            <thead>
+        <div className="table-responsive mt-4">
+          <table className="table table-striped">
+            <thead className="bg-primary">
               <tr>
                 <th>Date Completed</th>
                 <th>Month</th>
@@ -51,6 +50,8 @@ class Home extends Component {
                 <th>Status</th>
                 <th>Skill</th>
                 <th>Remarks</th>
+                <th></th>
+                <th></th>
               </tr>
             </thead>
             <tbody>

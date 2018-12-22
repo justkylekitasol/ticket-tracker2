@@ -1,37 +1,75 @@
 body {
   margin: 0;
   padding: 0;
-  background-color: #f1f1f1;
+  /* background-color: #f1f1f1; */
+  box-sizing: border-box
 }
 /* .table {
   width: 85%;
   max-width: 85%;
 } */
-.table-responsive {
-  max-height: 550px;
-  overflow-y: auto;
+.page {
+  position: absolute;
+  top: 100px;
+  left: 0;
+  right: 0;
 }
+.fade-appear, .fade-enter {
+  opacity: 0;
+  z-index: 1;
+}
+.fade-appear-active, .fade-enter.fade-enter-active {
+  opacity: 1;
+  transition: opacity 300ms linear 150ms
+}
+.fade-exit {
+  opacity: 1;
+}
+.fade-exit.fade-exit-active {
+  opacity: 0;
+  transition: opacity 150ms linear;
+}
+
+.table-responsive {
+  max-height: 75vh;
+  overflow-y: auto;
+  border-bottom: 1px solid #dee2e6 !important;
+  /* border: 1px solid #dee2e6; */
+}
+.table {
+  /* border: 1px solid #dee2e6; */
+  border-bottom: 1px solid #dee2e6 !important;
+  margin-bottom: 0;
+}
+th {
+  color: #f1f1f1
+}
+
 .container {
   max-width: 1540px;
 }
 
 .delete-btn, .edit-btn {
-  background-color: transparent;
+  /* background-color: transparent;
   border-color: transparent;
   color: transparent;
-  transition: 0.3s;
+  transition: 0.3s; */
+  visibility: hidden;
+  
 }
 
 .ticket:hover .delete-btn {
-  background-color: #dc3545;
+  /* background-color: #dc3545;
   border-color: #dc3545;
-  color: white;
+  color: white; */
+  visibility: visible
 } 
 
 .ticket:hover .edit-btn {
-  background-color: #007bff;
+  /* background-color: #007bff;
   border-color: #007bff;
-  color: white;
+  color: white; */
+  visibility: visible
 }
 
 .copy-btn {
