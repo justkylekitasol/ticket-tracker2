@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import Navbar from './components/Navbar'
 import Returned from './components/Returned'
 import Home from './components/Home'
+import SignIn from './components/auth/SignIn'
+import SignUp from './components/auth/SignUp'
 import Daily from './components/Daily'
 import { connect } from 'react-redux'
 import AddTicket from './components/AddTicket'
@@ -35,7 +37,7 @@ class App extends Component {
   render() {
     return (
       <BrowserRouter>
-        <div className="chat-app">
+        <div>
           <Navbar />
           <Route render={({location}) => (
             <TransitionGroup>
@@ -43,6 +45,8 @@ class App extends Component {
                 <Switch location={location}>
                   <Route path='/returned' component={Returned}/>
                   <Route exact path='/' render={()=> <Home/>}/>
+                  <Route path='/signin' component={SignIn}/>
+                  <Route path='/signup' component={SignUp}/>
                   <Route path='/daily-tracker' render={()=> <Daily copyFunction={this.copyFunction}/>} />
                   <Route path='/:ticket_id' component={EditTicket}/>
                 </Switch>

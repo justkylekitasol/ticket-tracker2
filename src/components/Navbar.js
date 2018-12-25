@@ -20,6 +20,12 @@ const Navbar = () => {
               <li className="nav-item ml-3">
                 <Link className="nav-link" to="/returned">Returned</Link>
               </li>
+              <li className="nav-item ml-3">
+                <Link className="nav-link" to="/signin">Sign In</Link>
+              </li>
+              <li className="nav-item ml-3">
+                <Link className="nav-link" to="/signup">Sign Up</Link>
+              </li>
               {/* <li className="nav-item">
                 <NavLink className="nav-link" to="/add-ticket">Create Ticket</NavLink>
               </li> */}
