@@ -120,7 +120,7 @@ const mapStateToProps = (state, ownProps) => {
   let id = ownProps.match.params.ticket_id;
   
   return {
-    ticket: state.tickets.find((ticket) => {
+    ticket: state.ticket.tickets.find((ticket) => {
       return ticket.id === parseInt(id, 10)
     })
   }

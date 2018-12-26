@@ -88,10 +88,10 @@ class Daily extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    tickets: state.tickets,
-    USday: state.USday,
-    regulartickets: state.regulartickets,
-    migrations: state.migrations
+    tickets: state.ticket.tickets,
+    USday: state.ticket.USday,
+    regulartickets: state.ticket.regulartickets,
+    migrations: state.ticket.migrations
   }
 }
 

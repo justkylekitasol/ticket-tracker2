@@ -2,7 +2,8 @@ import React, {Component} from 'react'
 import { connect } from 'react-redux'
 import { deleteTicket } from '../actions/ticketActions'
 import { Link } from 'react-router-dom'
-
+import { firestoreConnect } from 'react-redux-firebase'
+import { compose } from 'redux'
 class Home extends Component {
   render() {
     const { tickets } = this.props;
@@ -65,8 +66,9 @@ class Home extends Component {
 }
 
 const mapStateToProps = (state) => {
+  console.log(state);
   return {
-    tickets: state.tickets
+    tickets: state.ticket.tickets
   }
 }
 
@@ -76,4 +78,9 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Home)
+export default compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  firestoreConnect([
+    { collection: 'tickets' }
+  ])
+)(Home)
