@@ -2,6 +2,8 @@ import React, {Component} from 'react'
 import { connect } from 'react-redux'
 import { deleteTicket } from '../actions/ticketActions'
 import { Link } from 'react-router-dom'
+import { firestoreConnect } from 'react-redux-firebase'
+import { compose } from 'redux'
 
 class Returned extends Component {
   getReturns () {
@@ -23,7 +25,7 @@ class Returned extends Component {
   render() {
     
     const { tickets } = this.props;
-    const ticketList = tickets.length ? (
+    const ticketList = this.getReturns() ? (
       tickets.map(ticket => {
         if (ticket.status === "Returned"){
           return (
@@ -34,7 +36,7 @@ class Returned extends Component {
               <td>{ ticket.remarks }</td>
               <td>{ ticket.skill }</td>
               <td><button className="btn btn-danger delete-btn" onClick={() => {this.props.deleteTicket(ticket.id, ticket.skill)}}>Delete</button></td>
-              <td><Link to={'/' + ticket.id}><button className="btn btn-primary edit-btn">Edit</button></Link></td>
+              <td><Link to={'/ticket/' + ticket.id}><button className="btn btn-primary edit-btn">Edit</button></Link></td>
             </tr>
           )
         } else {
@@ -47,49 +49,68 @@ class Returned extends Component {
       </tr>
     )
     return(
-      <div className="container page">
-        <h1 className="text-center">Returned Cases</h1>
-        <div className="row">
-          <div className="col-md-3 mt-4">
-            <div className="card bg-success text-white p-3">
-              <h4>Complete Total: { tickets.length }</h4>
-              <h4>Returns Total: { this.getReturns() }</h4>
-              <h4>Accuracy: { Math.floor(this.getAccuracy(tickets.length)) + '%' }</h4>
+      <div>
+        <div className="container page">
+          <h1 className="text-center">Returned Cases</h1>
+          <div className="row">
+            <div className="col-md-3 mt-4">
+              <div className="card bg-success text-white p-3">
+                <h4>Complete Total: { tickets.length }</h4>
+                <h4>Returns Total: { this.getReturns() }</h4>
+                <h4>Accuracy: { Math.floor(this.getAccuracy(tickets.length)) + '%' }</h4>
+              </div>
             </div>
-          </div>
-          <div className="col-md-9 mt-4">
-            <div className="table-responsive">
-              <table className="text-center table table-striped">
-                <thead className="bg-primary">
-                  <tr>
-                    <th>Date</th>
-                    <th>Ticket #</th>
-                    <th>Link</th>
-                    <th>Revisions/Edits</th>
-                    <th>Task</th>
-                    <th></th>
-                    <th></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  { ticketList }  
-                </tbody>
-              </table>
+            <div className="col-md-9 mt-4">
+              <div className="table-responsive">
+                <table className="text-center table table-striped">
+                  <thead className="bg-primary">
+                    <tr>
+                      <th>Date</th>
+                      <th>Ticket #</th>
+                      <th>Link</th>
+                      <th>Revisions/Edits</th>
+                      <th>Task</th>
+                      <th></th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    { ticketList }  
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
         </div>
+        <div className="fixed-action-btn">
+          <button id="add-btn" data-toggle="modal" data-target="#myModal">
+            <i className="material-icons">add</i>
+          </button>
+        </div> 
       </div>
     )
   }
 }
 
 const mapStateToProps = (state) => {
-  return {
-    tickets: state.ticket.tickets,
-    USday: state.ticket.USday,
-    regulartickets: state.ticket.regulartickets,
-    migrations: state.ticket.migrations
-  }
+  if(state.firestore.ordered.tickets)
+    {
+      return{
+        tickets: state.firestore.ordered.tickets,
+        USday: state.ticket.USday,
+        regulartickets: state.ticket.regulartickets,
+        migrations: state.ticket.migrations
+      }
+    }
+    else
+    {
+      return{
+        tickets: state.ticket.tickets,
+        USday: state.ticket.USday,
+        regulartickets: state.ticket.regulartickets,
+        migrations: state.ticket.migrations
+      }
+    }
 }
 
 const mapDispatchToProps = (dispatch) => {
@@ -97,4 +118,9 @@ const mapDispatchToProps = (dispatch) => {
     deleteTicket: (id, skill) => { dispatch(deleteTicket(id, skill)) }
   }
 }
-export default connect(mapStateToProps, mapDispatchToProps)(Returned)
+export default compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  firestoreConnect([
+    { collection: 'tickets' }
+  ])
+)(Returned)

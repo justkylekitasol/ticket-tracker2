@@ -1,7 +1,7 @@
 const initState = {
   USday: USday(),
   tickets: [
-    { id: 11, 
+    { id: 1, 
       datecomplete: '12/12/2018', 
       Localday: 2, 
       month: Month(), 
@@ -14,51 +14,7 @@ const initState = {
       remarks: 'Edit Page', 
       status: 'Returned', 
       skill: 'Migration'
-    },
-    {
-      id: 12, 
-      datecomplete: '12/18/2018', 
-      Localday: 1, 
-      month: Month(), 
-      week: Week(), 
-      start: '01:30 AM',
-      end: '02:30 AM', 
-      theme: 'Julia', 
-      ticketnumber: '370156', 
-      website: 'https://my.onlinechiro.com/0031729/site/editor/cms', 
-      remarks: 'Change Theme', 
-      status: 'Returned', 
-      skill: 'Migration'
-    },
-    { id: 13, 
-      datecomplete: '12/12/2018', 
-      Localday: 2, 
-      month: Month(), 
-      week: Week(), 
-      start: '01:30 AM',
-      end: '02:30 AM', 
-      theme: 'Julia', 
-      ticketnumber: '370156', 
-      website: 'https://my.onlinechiro.com/0031729/site/editor/cms', 
-      remarks: 'Edit Page', 
-      status: 'Complete', 
-      skill: 'Migration'
-    },
-    { id: 14, 
-      datecomplete: '12/12/2018', 
-      Localday: 2, 
-      month: Month(), 
-      week: Week(), 
-      start: '01:30 AM',
-      end: '02:30 AM', 
-      theme: 'Julia', 
-      ticketnumber: '370156', 
-      website: 'https://my.onlinechiro.com/0031729/site/editor/cms', 
-      remarks: 'Edit Page', 
-      status: 'Complete', 
-      skill: 'Migration'
-    },   
-    
+    }
   ],
   
 }
@@ -83,6 +39,10 @@ function Month() {
 
 const ticketReducer = (state = initState, action) => {
   switch(action.type) {
+    case 'TICKET_ERROR':
+      console.log('Error', action.err);
+      return state;
+      
     case 'DELETE_TICKET':
       let newTicket = state.tickets.filter(ticket => {
         return action.id !== ticket.id
@@ -93,16 +53,13 @@ const ticketReducer = (state = initState, action) => {
       }
       
     case 'ADD_TICKET':
+      console.log(state)
       let ticket = action.ticket;
       let tickets = [...state.tickets, ticket];
       return {
         ...state,
         tickets
       }
-
-    case 'ADD_TICKET_ERROR':
-      console.log('Add Ticket Error', action.err);
-      return state;
 
     case 'EDIT_TICKET':
       state.tickets.map(ticket => {

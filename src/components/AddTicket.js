@@ -102,7 +102,7 @@ class AddTicket extends Component {
   }
   handleChange = (e) => {
     this.setState({
-      id: parseInt(Math.floor(Math.random() * 10000) + 1, 16),
+      // id: parseInt(Math.floor(Math.random() * 10000) + 1, 16),
       datecomplete: this.Today(),
       Localday: this.Localday(),
       month: this.Month(),

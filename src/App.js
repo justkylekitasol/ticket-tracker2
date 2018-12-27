@@ -48,7 +48,7 @@ class App extends Component {
                   <Route path='/signin' component={SignIn}/>
                   <Route path='/signup' component={SignUp}/>
                   <Route path='/daily-tracker' render={()=> <Daily copyFunction={this.copyFunction}/>} />
-                  <Route path='/:ticket_id' component={EditTicket}/>
+                  <Route path='/ticket/:ticket_id' component={EditTicket}/>
                 </Switch>
               </CSSTransition>
             </TransitionGroup>
