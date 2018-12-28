@@ -3,65 +3,42 @@ import { connect } from 'react-redux'
 import { editTicket } from '../actions/ticketActions'
 import { firestoreConnect } from 'react-redux-firebase'
 import { compose } from 'redux'
+import { Redirect } from 'react-router-dom'
 
 var id;
-const mapStateToProps = (state, ownProps) => {
-  id = ownProps.match.params.ticket_id;
-  const tickets = state.firestore.data.tickets;
-  const ticket = tickets ? tickets[id] : null
-  return {
-    ticket: ticket
-  }
-  // if(state.firestore.data.tickets)
-  // {
-  //   const ticket = state.firestore.data.tickets ? state.firestore.data.tickets[id] : null
-  //   return{
-  //     ticket: ticket
-  //   }
-  // }
-  // else
-  // {
-  //   return{
-  //     ticket: state.firestore.data.tickets.find((ticket) => {
-  //       return ticket.id === id
-  //     })
-  //   }
-  // }
-}
-
-const mapDispatchToProps = (dispatch) => {
-  console.log(id)
-  return  {
-    editTicket: (id, ticket) => { dispatch(editTicket(id, ticket)) }
-  }
-}
 
 class EditTicket extends Component {
   state = {
-    
+    datecomplete: this.props.ticket.datecomplete,
+    month: this.props.ticket.month,
+    week: this.props.ticket.week,
+    Localday: this.props.ticket.Localday,
+    start: this.props.ticket.start,
+    end: this.props.ticket.end,
+    theme: this.props.ticket.theme,
+    ticketnumber: this.props.ticket.ticketnumber,
+    website: this.props.ticket.website,
+    remarks: this.props.ticket.remarks,
+    status: this.props.ticket.status,
+    skill: this.props.ticket.skill
   }
   handleChange = (e) => {
     this.setState({
       [e.target.id]: e.target.value
     })
   }
-  handleLoad = (e) => {
-    this.setState({
-      [e.target.id]: e.target.value
-    })
-  }
   handleSubmit = (e) => {
     e.preventDefault();
-    this.setState({
-      [e.target.id]: e.target.value
-    })
     this.props.editTicket(id, this.state);
     this.props.history.push('/daily-tracker')
   }
   render() {
+    const { auth } = this.props;
+    if (!auth.uid) return <Redirect to='/signin' />
+    
     const ticket = this.props.ticket ? (
       <div>
-        <form onSubmit={this.handleSubmit} onLoad={this.handleLoad}>
+        <form onSubmit={this.handleSubmit}>
           <div className="row text-center">
             <div className="form-group col-sm-4">
               <label htmlFor="datecomplete">Date Completed</label>
@@ -145,7 +122,37 @@ class EditTicket extends Component {
     )
   }
 }
+const mapStateToProps = (state, ownProps) => {
+  id = ownProps.match.params.ticket_id;
+  const tickets = state.firestore.data.tickets;
+  const ticket = tickets ? tickets[id] : null
+  return {
+    ticket: ticket,
+    auth: state.firebase.auth
+  }
+  // if(state.firestore.data.tickets)
+  // {
+  //   const ticket = state.firestore.data.tickets ? state.firestore.data.tickets[id] : null
+  //   return{
+  //     ticket: ticket
+  //   }
+  // }
+  // else
+  // {
+  //   return{
+  //     ticket: state.firestore.data.tickets.find((ticket) => {
+  //       return ticket.id === id
+  //     })
+  //   }
+  // }
+}
 
+const mapDispatchToProps = (dispatch) => {
+  console.log(id)
+  return  {
+    editTicket: (id, ticket) => { dispatch(editTicket(id, ticket)) }
+  }
+}
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   firestoreConnect([

@@ -4,9 +4,13 @@ import { deleteTicket } from '../actions/ticketActions'
 import { Link } from 'react-router-dom'
 import { firestoreConnect } from 'react-redux-firebase'
 import { compose } from 'redux'
+import { Redirect } from 'react-router-dom'
+
 class Home extends Component {
   render() {
-    const { tickets } = this.props;
+    const { tickets, auth } = this.props;
+    if (!auth.uid) return <Redirect to='/signin' />
+
     const ticketList = tickets.length ? (
       tickets.map(ticket => {
         return (
@@ -76,13 +80,15 @@ const mapStateToProps = (state) => {
   if(state.firestore.ordered.tickets)
     {
       return{
-        tickets: state.firestore.ordered.tickets
+        tickets: state.firestore.ordered.tickets,
+        auth: state.firebase.auth
       }
     }
     else
     {
       return{
-        tickets: ''
+        tickets: '',
+        auth: state.firebase.auth
       }
     }
 }

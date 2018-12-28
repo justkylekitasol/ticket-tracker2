@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import Navbar from './components/Navbar'
+import Navbar from './components/layout/Navbar'
 import Returned from './components/Returned'
 import Home from './components/Home'
 import SignIn from './components/auth/SignIn'

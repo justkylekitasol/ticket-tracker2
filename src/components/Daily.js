@@ -4,6 +4,7 @@ import { deleteTicket } from '../actions/ticketActions'
 import { Link } from 'react-router-dom'
 import { firestoreConnect } from 'react-redux-firebase'
 import { compose } from 'redux'
+import { Redirect } from 'react-router-dom'
 
 class Daily extends Component {
   getSkill (skill) {
@@ -21,7 +22,8 @@ class Daily extends Component {
   }
   
   render() {
-    const { tickets } = this.props;
+    const { tickets, auth } = this.props;
+    if (!auth.uid) return <Redirect to='/signin' />
     const ticketList = this.getSkill("Regular Ticket") || this.getSkill("Migration") ? (
       tickets.map(ticket => {
         if (this.props.USday + 1 === ticket.Localday || this.props.USday === ticket.Localday){
@@ -103,7 +105,8 @@ const mapStateToProps = (state) => {
         tickets: state.firestore.ordered.tickets,
         USday: state.ticket.USday,
         regulartickets: state.ticket.regulartickets,
-        migrations: state.ticket.migrations
+        migrations: state.ticket.migrations,
+        auth: state.firebase.auth
       }
     }
     else
@@ -112,7 +115,8 @@ const mapStateToProps = (state) => {
         tickets: state.ticket.tickets,
         USday: state.ticket.USday,
         regulartickets: state.ticket.regulartickets,
-        migrations: state.ticket.migrations
+        migrations: state.ticket.migrations,
+        auth: state.firebase.auth
       }
     }
 }
