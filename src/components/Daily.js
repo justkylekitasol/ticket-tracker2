@@ -11,7 +11,7 @@ class Daily extends Component {
     let getSkill = skill
     const { tickets } = this.props;
     let skills = tickets.filter(ticket => {
-      if (this.props.USday + 1 === ticket.Localday || this.props.USday === ticket.Localday) {
+      if (this.props.USday === ticket.Localday) {
         return (
           ticket.skill === getSkill
         )
@@ -26,7 +26,7 @@ class Daily extends Component {
     if (!auth.uid) return <Redirect to='/signin' />
     const ticketList = this.getSkill("Regular Ticket") || this.getSkill("Migration") ? (
       tickets.map(ticket => {
-        if (this.props.USday + 1 === ticket.Localday || this.props.USday === ticket.Localday){
+        if (this.props.USday === ticket.Localday){
           return (
             <tr className="ticket" key={ticket.id}>
               <td>{ ticket.datecomplete }</td>
@@ -130,6 +130,6 @@ const mapDispatchToProps = (dispatch) => {
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   firestoreConnect([
-    { collection: 'tickets' }
+    { collection: 'tickets', orderBy: ['enddate', 'asc'] }
   ])
 )(Daily)

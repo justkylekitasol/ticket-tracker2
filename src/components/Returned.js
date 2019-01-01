@@ -18,7 +18,6 @@ class Returned extends Component {
     let Returns = this.props.tickets.filter(ticket => ticket.status === ret).length
     let percent = (Returns / total) * 100
     let accuracy = 100 - percent
-    // console.log(percent)
     if (Returns === 0 && total === 0) {
       return 0
     } else return accuracy
@@ -126,6 +125,6 @@ const mapDispatchToProps = (dispatch) => {
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   firestoreConnect([
-    { collection: 'tickets' }
+    { collection: 'tickets', orderBy: ['enddate', 'asc'] }
   ])
 )(Returned)

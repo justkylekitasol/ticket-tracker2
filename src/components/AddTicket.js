@@ -78,13 +78,19 @@ class AddTicket extends Component {
     })
   }
   Localday() {
-    let today = new Date().getDate()
-    return(today)
+    var today = new Date();  
+    var localoffset = -(today.getTimezoneOffset()/60);
+    var destoffset = -5;
+    var offset = destoffset-localoffset;
+    var d = new Date( new Date().getTime() + offset * 3600 * 1000)
+    var r = d.getDate()
+    return(r)
   }
   Today() {
-    let today = this.Localday(),
+    let today = new Date().getDate(),
     month = new Date().getMonth() + 1,
     year = new Date().getFullYear();
+    console.log(today)
     return(month + '/' + today + '/' + year);
   }
   Week() {

@@ -19,8 +19,17 @@ const initState = {
   
 }
 function USday() {
-  let today = new Date().getUTCDate()
-  return(today);
+  // let today = new Date().getUTCDate()
+  // console.log(today)
+  // return(today);
+  var today = new Date();  
+  var localoffset = -(today.getTimezoneOffset()/60);
+  var destoffset = -5;
+  var offset = destoffset-localoffset;
+  var d = new Date( new Date().getTime() + offset * 3600 * 1000)
+  var r = d.getDate()
+  console.log(r)
+  return(r)
 }
 function Week() {
   var date = new Date();
