@@ -71,7 +71,13 @@ class Returned extends Component {
       })
     ) : (
       <tr>
-        <td colSpan="11"><h3>No Returned Tickets</h3></td>
+        <td colSpan="11">
+          <div class="loader">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </td>
       </tr>
     )
     return(
