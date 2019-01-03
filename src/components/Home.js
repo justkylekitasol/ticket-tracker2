@@ -38,7 +38,13 @@ class Home extends Component {
       })
     ) : (
       <tr>
-        <td colSpan="13"><h3>No Tickets</h3></td>
+        <td colSpan="13">
+          <div class="loader">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </td>
       </tr>
     )
     
