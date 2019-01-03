@@ -50,7 +50,13 @@ class Daily extends Component {
       })
     ) : (
       <tr>
-        <td colSpan="11"><h3>No Tickets For Today</h3></td>
+        <td colSpan="11">
+          <div class="loader">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </td>
         <td></td>
         <td></td>
       </tr>
