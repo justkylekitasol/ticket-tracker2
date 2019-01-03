@@ -9,18 +9,18 @@ var id;
 
 class EditTicket extends Component {
   state = {
-    datecomplete: '',
-    month: '',
-    week: '',
-    Localday: '',
-    start: '',
-    end: '',
-    theme: '',
-    ticketnumber: '',
-    website: '',
-    remarks: '',
-    status: '',
-    skill: ''
+    datecomplete: this.props.ticket.datecomplete,
+    month: this.props.ticket.month,
+    week: this.props.ticket.week,
+    Localday: this.props.ticket.Localday,
+    start: this.props.ticket.start,
+    end: this.props.ticket.end,
+    theme: this.props.ticket.theme,
+    ticketnumber: this.props.ticket.ticketnumber,
+    website: this.props.ticket.website,
+    remarks: this.props.ticket.remarks,
+    status: this.props.ticket.status,
+    skill: this.props.ticket.skill
   }
   handleChange = (e) => {
     this.setState({
@@ -29,22 +29,6 @@ class EditTicket extends Component {
   }
   handleSubmit = (e) => {
     e.preventDefault();
-    if (
-      this.state.datecomplete === '' ||
-      this.state.month === '' ||
-      this.state.week === '' ||
-      this.state.Localday === '' ||
-      this.state.start === '' ||
-      this.state.end === '' ||
-      this.state.theme === '' ||
-      this.state.ticketnumber === '' ||
-      this.state.website === '' ||
-      this.state.remarks === '' ||
-      this.state.status === '' ||
-      this.state.skill === ''
-    ) {
-      console.log("yey")
-    }
     this.props.editTicket(id, this.state);
     this.props.history.push('/daily-tracker')
   }
