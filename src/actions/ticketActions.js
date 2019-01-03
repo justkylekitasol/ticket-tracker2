@@ -1,8 +1,13 @@
 export const addTicket = (ticket) => {
   return (dispatch, getState, {getFirebase, getFirestore}) => {
     const firestore = getFirestore();
+    const profile = getState().firebase.profile;
+    const userId = getState().firebase.auth.uid;
     firestore.collection('tickets').add({
-      ...ticket
+      ...ticket,
+      userFirstName: profile.firstName,
+      userLastName: profile.lastName,
+      userId: userId
     }).then(() => {
       dispatch({type: 'ADD_TICKET', ticket});
     }).catch((err) => {

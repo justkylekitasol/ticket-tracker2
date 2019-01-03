@@ -7,29 +7,34 @@ import { compose } from 'redux'
 import { Redirect } from 'react-router-dom'
 
 class Home extends Component {
+  
   render() {
     const { tickets, auth } = this.props;
     if (!auth.uid) return <Redirect to='/signin' />
 
     const ticketList = tickets.length ? (
       tickets.map(ticket => {
-        return (
-          <tr className="ticket" key={ticket.id}>
-            <td>{ ticket.datecomplete }</td>
-            <td>{ ticket.month }</td>
-            <td>{ ticket.week }</td>
-            <td>{ ticket.start }</td>
-            <td>{ ticket.end }</td>
-            <td>{ ticket.theme }</td>
-            <td>{ ticket.ticketnumber }</td>
-            <td>{ ticket.website }</td>
-            <td>{ ticket.status }</td>
-            <td>{ ticket.skill }</td>
-            <td>{ ticket.remarks }</td>
-            <td><button className="btn btn-danger delete-btn" onClick={() => {this.props.deleteTicket(ticket.id)}}>Delete</button></td>
-            <td><Link to={'/ticket/' + ticket.id}><button className="btn btn-primary edit-btn">Edit</button></Link></td>
-          </tr>
-        )
+        if (auth.uid === ticket.userId){
+          return (
+            <tr className="ticket" key={ticket.id}>
+              <td>{ ticket.datecomplete }</td>
+              <td>{ ticket.month }</td>
+              <td>{ ticket.week }</td>
+              <td>{ ticket.start }</td>
+              <td>{ ticket.end }</td>
+              <td>{ ticket.theme }</td>
+              <td>{ ticket.ticketnumber }</td>
+              <td>{ ticket.website }</td>
+              <td>{ ticket.status }</td>
+              <td>{ ticket.skill }</td>
+              <td>{ ticket.remarks }</td>
+              <td><button className="btn btn-danger delete-btn" onClick={() => {this.props.deleteTicket(ticket.id)}}>Delete</button></td>
+              <td><Link to={'/ticket/' + ticket.id}><button className="btn btn-primary edit-btn">Edit</button></Link></td>
+            </tr>
+          )
+        } else {
+          return null
+        }
       })
     ) : (
       <tr>

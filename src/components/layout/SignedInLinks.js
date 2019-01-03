@@ -6,6 +6,9 @@ import { signOut } from '../../actions/authActions'
 const SignedInLinks = (props) => {
   return (
     <ul className="navbar-nav ml-auto">
+    <li className="nav-item mr-2">
+        <h4 className="text-white">Hi {props.profile.firstName}!</h4>
+      </li>
       <li className="nav-item ml-3">
         <Link className="nav-link" to="/">Main Tracker</Link>
       </li>

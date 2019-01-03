@@ -6,19 +6,43 @@ import { firestoreConnect } from 'react-redux-firebase'
 import { compose } from 'redux'
 import { Redirect } from 'react-router-dom'
 
+let ret = "Returned";
 class Returned extends Component {
   getReturns () {
-    let ret = "Returned";
-    let Returns = this.props.tickets.filter(ticket => ticket.status === ret).length
-    return Returns
+    const { tickets, auth } = this.props;
+    let Returns = tickets.filter(ticket => {
+      if ( auth.uid === ticket.userId) {
+        return (
+          ticket.status === ret
+        )
+      } else return 0
+    })
+    return Returns.length
+  }
+  getTotal () {
+    const { tickets, auth } = this.props;
+    let Total = tickets.filter(ticket => {
+      if ( auth.uid === ticket.userId) {
+        return (
+          ticket.ticketnumber
+        )
+      } else return 0
+    })
+    return Total.length
   }
   getAccuracy (length) {
-    let ret = "Returned";
     let total = length;
-    let Returns = this.props.tickets.filter(ticket => ticket.status === ret).length
-    let percent = (Returns / total) * 100
+    const { tickets, auth } = this.props;
+    let Returns = tickets.filter(ticket => {
+      if ( auth.uid === ticket.userId) {
+        return (
+          ticket.status === ret
+        )
+      } else return 0
+    })
+    let percent = (Returns.length / total) * 100
     let accuracy = 100 - percent
-    if (Returns === 0 && total === 0) {
+    if (Returns.length === 0 && total === 0) {
       return 0
     } else return accuracy
   }
@@ -29,7 +53,7 @@ class Returned extends Component {
     
     const ticketList = this.getReturns() ? (
       tickets.map(ticket => {
-        if (ticket.status === "Returned"){
+        if (ticket.status === "Returned" && auth.uid === ticket.userId){
           return (
             <tr className="ticket" key={ticket.id}>
               <td>{ ticket.datecomplete }</td>
@@ -57,9 +81,9 @@ class Returned extends Component {
           <div className="row">
             <div className="col-md-3 mt-4">
               <div className="card bg-success text-white p-3">
-                <h4>Complete Total: { tickets.length }</h4>
+                <h4>Complete Total: { this.getTotal() }</h4>
                 <h4>Returns Total: { this.getReturns() }</h4>
-                <h4>Accuracy: { Math.floor(this.getAccuracy(tickets.length)) + '%' }</h4>
+                <h4>Accuracy: { Math.floor(this.getAccuracy(this.getTotal())) + '%' }</h4>
               </div>
             </div>
             <div className="col-md-9 mt-4">

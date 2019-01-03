@@ -9,9 +9,9 @@ import { Redirect } from 'react-router-dom'
 class Daily extends Component {
   getSkill (skill) {
     let getSkill = skill
-    const { tickets } = this.props;
+    const { tickets, auth } = this.props;
     let skills = tickets.filter(ticket => {
-      if (this.props.USday === ticket.Localday) {
+      if (this.props.USday === ticket.Localday && auth.uid === ticket.userId) {
         return (
           ticket.skill === getSkill
         )
@@ -26,7 +26,7 @@ class Daily extends Component {
     if (!auth.uid) return <Redirect to='/signin' />
     const ticketList = this.getSkill("Regular Ticket") || this.getSkill("Migration") ? (
       tickets.map(ticket => {
-        if (this.props.USday === ticket.Localday){
+        if (this.props.USday === ticket.Localday && auth.uid === ticket.userId){
           return (
             <tr className="ticket" key={ticket.id}>
               <td>{ ticket.datecomplete }</td>
