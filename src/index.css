@@ -133,7 +133,8 @@ th {
 }
 
 .loader {
-  text-align: center;    
+  text-align: center; 
+  min-height: 130px;   
 }
 .loader span {
   display: inline-block;
